@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 
 import androidx.activity.EdgeToEdge;
@@ -15,11 +17,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener, Runnable {
+public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener, Runnable, View.OnClickListener{
 
     private Toolbar toolbar;
 
     private MediaPlayer mediaPlayer;
+
+    private Button btn;
+
+    private boolean flag;
+
+    private int musica;
 
     private SeekBar seekBar;
 
@@ -48,6 +56,12 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
         handler = new Handler();
 
+        btn = findViewById(R.id.button2);
+        btn.setOnClickListener(this);
+
+        flag = false;
+
+        musica = R.raw.ultraman_geed_no_akashi;
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -63,7 +77,7 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
             if(mediaPlayer == null){
 
-                mediaPlayer = MediaPlayer.create(this,R.raw.bushwick_tarantella);
+                mediaPlayer = MediaPlayer.create(this,musica);
                 mediaPlayer.setOnCompletionListener(this);
 
                 seekBar.setMax(mediaPlayer.getDuration());
@@ -82,20 +96,21 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
         if(id == R.id.id002){
 
+            if(mediaPlayer != null && mediaPlayer.isPlaying()){
+
+                mediaPlayer.pause();
+
+            }
+
+        }
+
+        if(id == R.id.id003){
+
             if(mediaPlayer != null){
 
                 mediaPlayer.stop();
                 mediaPlayer.release();
                 mediaPlayer = null;
-
-            }
-        }
-
-        if(id == R.id.id003){
-
-            if(mediaPlayer != null && mediaPlayer.isPlaying()){
-
-                mediaPlayer.pause();
 
             }
 
@@ -155,4 +170,26 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
         }
 
     }
+
+    @Override
+    public void onClick(View view) {
+
+        if(view == btn){
+
+            if(!flag){
+
+                musica = R.raw.ultraman_orb_no_inori;
+                flag = true;
+
+            }else{
+
+                musica = R.raw.touch_the_sun__origin_saga;
+                flag = false;
+
+            }
+
+        }
+
+    }
+
 }
