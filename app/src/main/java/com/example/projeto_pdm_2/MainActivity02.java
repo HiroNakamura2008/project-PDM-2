@@ -9,13 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.ArrayList;
 
 public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener, Runnable, View.OnClickListener{
 
@@ -23,15 +27,17 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
     private MediaPlayer mediaPlayer;
 
-    private Button btn;
-
-    private boolean flag;
-
-    private int musica;
+    private int musica, indiceLista;
 
     private SeekBar seekBar;
 
     private Handler handler;
+
+    private ArrayList <PlayList> lista;
+
+    private CardView Card, Card0, Card1, Card2, Card3;
+
+    private TextView txtMusicToca, txtMusicSeleciona;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +62,28 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
         handler = new Handler();
 
-        btn = findViewById(R.id.button2);
-        btn.setOnClickListener(this);
-
-        flag = false;
-
         musica = R.raw.ultraman_geed_no_akashi;
+
+        lista = new ArrayList<PlayList>();
+        lista.add(new PlayList("excite", R.raw.exaid_excite));
+        lista.add(new PlayList("Samurai Sentai Shinkenger", R.raw.shinkenger));
+        lista.add(new PlayList("Ultraman Geed", R.raw.ultraman_geed_no_akashi));
+        lista.add(new PlayList("Ultraman Orb Origin", R.raw.touch_the_sun__origin_saga));
+        lista.add(new PlayList("Almighty - Saber", R.raw.almighty_saber));
+
+        Card = findViewById(R.id.CardView);
+        Card.setOnClickListener(this);
+        Card0 = findViewById(R.id.CardView0);
+        Card0.setOnClickListener(this);
+        Card1 = findViewById(R.id.CardView1);
+        Card1.setOnClickListener(this);
+        Card2 = findViewById(R.id.CardView2);
+        Card2.setOnClickListener(this);
+        Card3 = findViewById(R.id.CardView3);
+        Card3.setOnClickListener(this);
+
+        txtMusicSeleciona = findViewById(R.id.textView);
+        txtMusicToca = findViewById(R.id.textView2);
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -79,6 +101,8 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
                 mediaPlayer = MediaPlayer.create(this,musica);
                 mediaPlayer.setOnCompletionListener(this);
+
+                txtMusicSeleciona.setText("Música tocando: " + lista.get(indiceLista).getNome());
 
                 seekBar.setMax(mediaPlayer.getDuration());
 
@@ -174,19 +198,43 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
     @Override
     public void onClick(View view) {
 
-        if(view == btn){
+        if (view == Card){
 
-            if(!flag){
+            indiceLista = 0;
+            txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
+            musica = lista.get(indiceLista).getMusica();
 
-                musica = R.raw.ultraman_orb_no_inori;
-                flag = true;
+        }
 
-            }else{
+        if (view == Card0){
 
-                musica = R.raw.touch_the_sun__origin_saga;
-                flag = false;
+            indiceLista = 1;
+            txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
+            musica = lista.get(indiceLista).getMusica();
 
-            }
+        }
+
+        if (view == Card1){
+
+            indiceLista = 2;
+            txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
+            musica = lista.get(indiceLista).getMusica();
+
+        }
+
+        if (view == Card2){
+
+            indiceLista = 3;
+            txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
+            musica = lista.get(indiceLista).getMusica();
+
+        }
+
+        if (view == Card3){
+
+            indiceLista = 4;
+            txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
+            musica = lista.get(indiceLista).getMusica();
 
         }
 

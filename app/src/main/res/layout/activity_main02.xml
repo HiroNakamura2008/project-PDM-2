@@ -33,7 +33,7 @@
         android:fontFamily="sans-serif-smallcaps"
         android:text="Música Selecionada: I"
         android:textColor="#0084FF"
-        android:textSize="34sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:typeface="normal" />
 
@@ -45,13 +45,13 @@
         android:fontFamily="sans-serif-condensed-medium"
         android:text="Música em Execução: l"
         android:textColor="#00FF00"
-        android:textSize="34sp"
+        android:textSize="14sp"
         android:typeface="normal" />
 
     <ScrollView
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,70 +59,83 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/CardView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="#0095FF">
+                app:cardBackgroundColor="#0095FF"
+                app:cardCornerRadius="25dp">
 
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_launcher_background" />
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/exaid" />
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/CardView0"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="#E4D500">
+                app:cardBackgroundColor="#E4D500"
+                app:cardCornerRadius="25dp">
 
                 <ImageView
                     android:id="@+id/imageView0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/sym_def_app_icon" />
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/samurai" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/CardView1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="#00FF37">
+                app:cardBackgroundColor="#00FF37"
+                app:cardCornerRadius="25dp">
 
                 <ImageView
                     android:id="@+id/imageView1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/common_google_signin_btn_text_dark_normal_background" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <ImageView
-                    android:id="@+id/imageView21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/androidcapa" />
+                    app:srcCompat="@drawable/geed" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/CardView2"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="150dp"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="#FF5E00">
+                app:cardCornerRadius="25dp">
 
                 <ImageView
-                    android:id="@+id/imageView22"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                    app:srcCompat="@drawable/origin" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/CardView3"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="#FF5E00"
+                app:cardCornerRadius="25dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/saber" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
