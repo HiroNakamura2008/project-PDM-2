@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -39,6 +40,8 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
     private TextView txtMusicToca, txtMusicSeleciona;
 
+    private ImageView imgPreview, imgNext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -62,7 +65,7 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
         handler = new Handler();
 
-        musica = R.raw.ultraman_geed_no_akashi;
+        musica = R.raw.zenkaiger;
 
         lista = new ArrayList<PlayList>();
         lista.add(new PlayList("excite", R.raw.exaid_excite));
@@ -84,61 +87,37 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
         txtMusicSeleciona = findViewById(R.id.textView);
         txtMusicToca = findViewById(R.id.textView2);
+
+        imgPreview = findViewById(R.id.imageView4);
+        imgPreview.setOnClickListener(this);
+        imgNext = findViewById(R.id.imageView5);
+        imgNext.setOnClickListener(this);
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
 
         int id = item.getItemId();
-        if (id == android.R.id.home){
+
+        if (id == android.R.id.home)
 
             finish();
 
-        }
+        if(id == R.id.id001)
 
-        if(id == R.id.id001){
-
-            if(mediaPlayer == null){
-
-                mediaPlayer = MediaPlayer.create(this,musica);
-                mediaPlayer.setOnCompletionListener(this);
-
-                txtMusicSeleciona.setText("Música tocando: " + lista.get(indiceLista).getNome());
-
-                seekBar.setMax(mediaPlayer.getDuration());
-
-                handler.post(this);
-
-                mediaPlayer.start();
-
-            } else if (!mediaPlayer.isPlaying()) {
-
-                mediaPlayer.start();
-
-            }
-
-        }
+            Play();
 
         if(id == R.id.id002){
 
-            if(mediaPlayer != null && mediaPlayer.isPlaying()){
+            if(mediaPlayer != null && mediaPlayer.isPlaying())
 
                 mediaPlayer.pause();
 
-            }
 
         }
 
-        if(id == R.id.id003){
+        if(id == R.id.id003)
 
-            if(mediaPlayer != null){
-
-                mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer = null;
-
-            }
-
-        }
+            Stop();
 
         return false;
 
@@ -155,10 +134,22 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
 
+        handler.removeCallbacks(this);
+
         mediaPlayer.release();
-        mediaPlayer = null;
+        this.mediaPlayer = null;
 
         seekBar.setProgress(0);
+
+        indiceLista ++ ;
+
+        if (indiceLista >= lista.size())
+
+            indiceLista = 0;
+
+        txtMusicSeleciona.setText("Música Selecionada: "+lista.get(indiceLista).getNome());
+        Stop();
+        Play();
 
     }
 
@@ -175,11 +166,9 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-        if(mediaPlayer != null){
+        if(mediaPlayer != null)
 
             mediaPlayer.seekTo(seekBar.getProgress());
-
-        }
 
     }
 
@@ -235,6 +224,71 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
             indiceLista = 4;
             txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
             musica = lista.get(indiceLista).getMusica();
+
+        }
+
+        if (view == imgPreview){
+
+            indiceLista -- ;
+
+            if (indiceLista < 0)
+
+                indiceLista = lista.size()-1;
+
+            txtMusicSeleciona.setText("Música Selecionada: "+lista.get(indiceLista).getNome());
+            Stop();
+            Play();
+
+        }
+
+        if (view == imgNext){
+
+            indiceLista ++ ;
+
+            if (indiceLista >= lista.size())
+
+                indiceLista = 0;
+
+            txtMusicSeleciona.setText("Música Selecionada: "+lista.get(indiceLista).getNome());
+            Stop();
+            Play();
+
+        }
+
+    }
+
+    public void Play(){
+
+        if(mediaPlayer == null){
+
+            mediaPlayer = MediaPlayer.create(this,lista.get(indiceLista).getMusica());
+            mediaPlayer.setOnCompletionListener(this);
+
+            txtMusicToca.setText("Música tocando: " + lista.get(indiceLista).getNome());
+
+            seekBar.setMax(mediaPlayer.getDuration());
+
+            handler.post(this);
+
+            mediaPlayer.start();
+
+        } else if (!mediaPlayer.isPlaying()) {
+
+            mediaPlayer.start();
+
+            handler.post(this);
+
+        }
+
+    }
+
+    public void Stop(){
+
+        if(mediaPlayer != null){
+
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
 
         }
 
