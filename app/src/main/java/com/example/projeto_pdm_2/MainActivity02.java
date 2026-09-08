@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -26,9 +25,9 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
     private Toolbar toolbar;
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer MediaPlayer;
 
-    private int musica, indiceLista;
+    private int indiceLista;
 
     private SeekBar seekBar;
 
@@ -38,9 +37,11 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
     private CardView Card, Card0, Card1, Card2, Card3;
 
-    private TextView txtMusicToca, txtMusicSeleciona;
+    private TextView txtMusicToca, txtMusicSeleciona, TempoAtual, TempoRestante;
 
     private ImageView imgPreview, imgNext;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +66,13 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
         handler = new Handler();
 
-        musica = R.raw.zenkaiger;
-
         lista = new ArrayList<PlayList>();
         lista.add(new PlayList("excite", R.raw.exaid_excite));
         lista.add(new PlayList("Samurai Sentai Shinkenger", R.raw.shinkenger));
         lista.add(new PlayList("Ultraman Geed", R.raw.ultraman_geed_no_akashi));
         lista.add(new PlayList("Ultraman Orb Origin", R.raw.touch_the_sun__origin_saga));
         lista.add(new PlayList("Almighty - Saber", R.raw.almighty_saber));
+        lista.add(new PlayList("kikai sentai zenkaiger", R.raw.zenkaiger));
 
         Card = findViewById(R.id.CardView);
         Card.setOnClickListener(this);
@@ -92,6 +92,20 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
         imgPreview.setOnClickListener(this);
         imgNext = findViewById(R.id.imageView5);
         imgNext.setOnClickListener(this);
+
+        TempoAtual = findViewById(R.id.textView3);
+        TempoRestante = findViewById(R.id.textView4);
+
+    }
+
+    public String formatarTempo(int tempo){
+
+        int segundos = tempo / 1000;
+        int minutos = segundos / 60;
+        segundos %= 60;
+        String tempoFormatado = String.format("%02d:%02d", minutos, segundos);
+        return tempoFormatado;
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -108,9 +122,9 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
         if(id == R.id.id002){
 
-            if(mediaPlayer != null && mediaPlayer.isPlaying())
+            if(MediaPlayer != null && MediaPlayer.isPlaying())
 
-                mediaPlayer.pause();
+                MediaPlayer.pause();
 
 
         }
@@ -137,13 +151,13 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
         handler.removeCallbacks(this);
 
         mediaPlayer.release();
-        this.mediaPlayer = null;
+        MediaPlayer = null;
 
         seekBar.setProgress(0);
 
         indiceLista ++ ;
 
-        if (indiceLista >= lista.size())
+        if (indiceLista > lista.size())
 
             indiceLista = 0;
 
@@ -166,18 +180,24 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-        if(mediaPlayer != null)
+        if(MediaPlayer != null)
 
-            mediaPlayer.seekTo(seekBar.getProgress());
+            MediaPlayer.seekTo(seekBar.getProgress());
 
     }
 
     @Override
     public void run() {
 
-        if(mediaPlayer != null){
+        if(MediaPlayer != null){
 
-            seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            int tempoAtual = MediaPlayer.getCurrentPosition();
+            int duracao = MediaPlayer.getDuration();
+            int tempoRestante = duracao - tempoAtual;
+            TempoAtual.setText(formatarTempo(tempoAtual));
+            TempoRestante.setText("-" + formatarTempo(tempoRestante));
+
+            seekBar.setProgress(MediaPlayer.getCurrentPosition());
             handler.postDelayed(this,100);
 
         }
@@ -191,7 +211,6 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
             indiceLista = 0;
             txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
-            musica = lista.get(indiceLista).getMusica();
 
         }
 
@@ -199,7 +218,6 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
             indiceLista = 1;
             txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
-            musica = lista.get(indiceLista).getMusica();
 
         }
 
@@ -207,7 +225,6 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
             indiceLista = 2;
             txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
-            musica = lista.get(indiceLista).getMusica();
 
         }
 
@@ -215,7 +232,6 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
             indiceLista = 3;
             txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
-            musica = lista.get(indiceLista).getMusica();
 
         }
 
@@ -223,7 +239,6 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
             indiceLista = 4;
             txtMusicSeleciona.setText("Música selecionada: " + lista.get(indiceLista).getNome());
-            musica = lista.get(indiceLista).getMusica();
 
         }
 
@@ -259,22 +274,28 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
     public void Play(){
 
-        if(mediaPlayer == null){
+        if(MediaPlayer == null){
 
-            mediaPlayer = MediaPlayer.create(this,lista.get(indiceLista).getMusica());
-            mediaPlayer.setOnCompletionListener(this);
+            MediaPlayer = MediaPlayer.create(this,lista.get(indiceLista).getMusica());
+            MediaPlayer.setOnCompletionListener(this);
 
             txtMusicToca.setText("Música tocando: " + lista.get(indiceLista).getNome());
 
-            seekBar.setMax(mediaPlayer.getDuration());
+            int x = indiceLista;
+            x++;
+
+            toolbar.setTitle(lista.get(indiceLista).getNome());
+            toolbar.setSubtitle(Integer.toString(x) + " de " + Integer.toString(lista.size()));
+
+            seekBar.setMax(MediaPlayer.getDuration());
 
             handler.post(this);
 
-            mediaPlayer.start();
+            MediaPlayer.start();
 
-        } else if (!mediaPlayer.isPlaying()) {
+        } else if (!MediaPlayer.isPlaying()) {
 
-            mediaPlayer.start();
+            MediaPlayer.start();
 
             handler.post(this);
 
@@ -284,11 +305,11 @@ public class MainActivity02 extends AppCompatActivity implements MediaPlayer.OnC
 
     public void Stop(){
 
-        if(mediaPlayer != null){
+        if(MediaPlayer != null){
 
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
+            MediaPlayer.stop();
+            MediaPlayer.release();
+            MediaPlayer = null;
 
         }
 

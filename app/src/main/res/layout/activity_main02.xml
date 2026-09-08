@@ -11,13 +11,13 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:background="#EF0000"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:subtitle="subtitulo"
         app:subtitleTextColor="#FFC400"
-        app:title="titulo"
+        app:title="Nome"
         app:titleTextColor="#6600FF" />
 
     <LinearLayout
@@ -30,6 +30,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="00:00"
             android:textColor="#FFFFFF" />
 
@@ -44,6 +45,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="99:99"
             android:textColor="#FFFFFF" />
     </LinearLayout>

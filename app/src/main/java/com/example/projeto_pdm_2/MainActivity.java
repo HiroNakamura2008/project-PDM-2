@@ -2,6 +2,7 @@ package com.example.projeto_pdm_2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,9 +12,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements Runnable{
 
-    private Button btn;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +27,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
 
-        btn = findViewById(R.id.button);
-        btn.setOnClickListener(this);
+        handler = new Handler();
+
+        handler.postDelayed(this,1000);
 
     }
 
     @Override
-    public void onClick(View view) {
+    public void run() {
 
         startActivity(new Intent(this, MainActivity02.class));
+
 
     }
 }
