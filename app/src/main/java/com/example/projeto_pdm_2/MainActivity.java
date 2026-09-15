@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements Runnable{
     @Override
     public void run() {
 
-        startActivity(new Intent(this, MainActivity02.class));
+        startActivity(new Intent(this, MainActivity3.class));
 
 
     }
