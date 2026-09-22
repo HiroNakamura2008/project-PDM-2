@@ -6,13 +6,6 @@ public class Slide {
 
     private int imagem;
 
-    public Slide (String Nome, int Imagem){
-
-        this.nome = Nome;
-        this.imagem = Imagem;
-
-    }
-
     public Slide(String Nome, int Imagem, String Texto){
 
         this.nome = Nome;
@@ -20,7 +13,6 @@ public class Slide {
         this.texto = Texto;
 
     }
-
 
     public String getNome() {
         return nome;

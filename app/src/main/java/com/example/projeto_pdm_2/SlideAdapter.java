@@ -3,6 +3,7 @@ package com.example.projeto_pdm_2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +14,12 @@ public class SlideAdapter extends RecyclerView.Adapter<SlideHolder> {
 
     private ArrayList<Slide> lista;
 
-    public SlideAdapter (ArrayList<Slide> Lista){
+    private TextView texto;
 
-        this.lista = Lista;
+    public SlideAdapter (ArrayList<Slide> Lista, TextView Texto){
+
+        lista = Lista;
+        texto = Texto;
 
     }
 
@@ -33,6 +37,7 @@ public class SlideAdapter extends RecyclerView.Adapter<SlideHolder> {
 
         holder.titulo.setText(lista.get(position).getNome());
         holder.imagem.setImageResource(lista.get(position).getImagem());
+        texto.setText(lista.get(position).getTexto());
 
     }
 
@@ -42,4 +47,5 @@ public class SlideAdapter extends RecyclerView.Adapter<SlideHolder> {
         return lista.size();
 
     }
+
 }
