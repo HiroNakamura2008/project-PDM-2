@@ -3,11 +3,9 @@ package com.example.projeto_pdm_2;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -40,7 +38,7 @@ public class MainActivity3 extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main3);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.idDrawer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -58,6 +56,19 @@ public class MainActivity3 extends AppCompatActivity implements View.OnClickList
         lista.add(new Slide("Kamen rider PunkJack", R.drawable.punkjack, "Kamen rider Punkjack: Monster form"));
 
         SlideAdapter adapter = new SlideAdapter(lista, texto);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+
+            @Override
+            public void onPageSelected(int position) {
+
+                super.onPageSelected(position);
+                texto.setText(lista.get(position).getTexto());
+
+            }
+
+        });
+
         viewPager.setAdapter(adapter);
 
         voltar = findViewById(R.id.button);
@@ -65,7 +76,6 @@ public class MainActivity3 extends AppCompatActivity implements View.OnClickList
 
         music = findViewById(R.id.imageButton);
         music.setOnClickListener(this);
-
 
         tocando = true;
     }
@@ -75,7 +85,7 @@ public class MainActivity3 extends AppCompatActivity implements View.OnClickList
 
         if (view == voltar)
 
-            startActivity(new Intent(this, MainActivity02.class));
+            startActivity(new Intent(this, HomeActivity.class));
 
         if (view == music){
 
